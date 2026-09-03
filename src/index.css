@@ -1,14 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 * {
   margin: 0;
+  box-sizing: border-box;
 }
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "poppins";
+  /* font-family: "poppins"; */
+  font-family: "Outfit", sans-serif;
+  color: #111;
+  background: #fafafa;
+  overflow-x: hidden;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* .navbar {
+  padding-left: 10%;
+  padding-right: 10%;
+} */
+
+.btn {
+  background: #111;
+  color: #fff;
+  padding: 14px 25px;
+  font-size: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+}
+.btn:active {
+  background: #f3f3f3;
+}
+.btn img {
+  width: 20px;
+  margin-left: 10px;
+}
+
+@media (max-width: 1200px) {
+  /* .navbar {
+    padding-left: 5%;
+    padding-right: 5%;
+  } */
+  .btn {
+    padding: 14px 22px;
+    font-size: 14px;
+  }
 }

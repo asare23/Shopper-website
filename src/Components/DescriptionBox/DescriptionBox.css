@@ -27,3 +27,57 @@
     padding: 48px;
     padding-bottom: 70px;
 }
+
+
+@media (max-width: 1024px) {
+    .descriptionbox {
+      margin: 80px 40px;
+    }
+  
+    .descriptionbox-nav-box {
+      width: 150px;
+      height: 60px;
+      font-size: 15px;
+    }
+  
+    .descriptionbox-description {
+      padding: 35px;
+    }
+  }
+
+  
+  @media (max-width: 768px) {
+    .descriptionbox {
+      margin: 40px 20px; /* 🔥 remove huge side margins */
+    }
+  
+    .descriptionbox-navigator {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+  
+    .descriptionbox-nav-box {
+      width: 100%;
+      max-width: 200px;
+      height: 50px;
+      font-size: 14px;
+    }
+  
+    .descriptionbox-description {
+      padding: 25px 20px;
+      font-size: 14px;
+    }
+  }
+
+  
+  @media (max-width: 480px) {
+    .descriptionbox-nav-box {
+      max-width: 100%;
+    }
+  
+    .descriptionbox-description {
+      padding: 20px 15px;
+    }
+  }
+  
