@@ -37,28 +37,42 @@ const ShopContextProvider = (props) => {
   };
 
   useEffect(() => {
-    // initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const u = session?.user ?? null;
-      setUser(u);
-      if (u) fetchProfile(u.id);
-      setLoading(false);
-    });
+    let isMounted = true;
+
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        if (!isMounted) return;
+        const u = session?.user ?? null;
+        setUser(u);
+        if (u) fetchProfile(u.id);
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          console.warn("Failed to restore session", error.message);
+        }
+        if (isMounted) setLoading(false);
+      });
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       const u = session?.user ?? null;
       setUser(u);
       if (u) {
-        await fetchProfile(u.id);
+        // Do not await Supabase calls inside the auth event callback.
+        setTimeout(() => fetchProfile(u.id), 0);
       } else {
         setProfile(null);
       }
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const login = async (email, password) => {
@@ -73,6 +87,8 @@ const ShopContextProvider = (props) => {
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
+    setUser(null);
+    setProfile(null);
   };
 
   const addToCart = (itemId, product) => {

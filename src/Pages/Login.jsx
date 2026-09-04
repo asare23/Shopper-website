@@ -200,6 +200,11 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Log In"}
           </button>
+          <p>
+            <Link to="/reset-password" className="forgot-password-link">
+              Forgot your password?
+            </Link>
+          </p>
         </form>
 
         <div className="login-separator">

@@ -36,10 +36,10 @@ export const Navbar = () => {
     try {
       closeMenu();
       await logout();
-      // Use navigate with replace to ensure proper navigation
-      navigate("/login", { replace: true });
     } catch (err) {
       console.warn("Logout error", err.message);
+    } finally {
+      navigate("/login", { replace: true });
     }
   };
   return (
@@ -109,7 +109,7 @@ export const Navbar = () => {
                 Welcome, {firstName}
               </span>
             ) : (
-              <Link to="/login" onClick={closeMenu}>
+              <Link to="/login-page" onClick={closeMenu}>
                 <button className="btn">Login</button>
               </Link>
             )}
@@ -134,7 +134,7 @@ export const Navbar = () => {
               Welcome, {firstName}
             </span>
           ) : (
-            <Link to="/login">
+            <Link to="/login-page">
               <button className="btn">Login</button>
             </Link>
           )}

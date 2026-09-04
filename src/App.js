@@ -8,6 +8,7 @@ import Product from "./Pages/Product";
 import Cart from "./Pages/Cart";
 import LoginSignup from "./Pages/LoginSignup";
 import Login from "./Pages/Login";
+import ResetPassword from "./Pages/ResetPassword";
 import Footer from "./Components/Footer/Footer";
 import men_banner from "./Components/Assets/menbanner.png";
 import women_banner from "./Components/Assets/womenbanner.png";
@@ -19,7 +20,8 @@ function AppContent() {
   const isLoginPage =
     pathname === "/login" ||
     pathname === "/login-page" ||
-    pathname === "/login-signup";
+    pathname === "/login-signup" ||
+    pathname === "/reset-password";
 
   return (
     <div>
@@ -42,11 +44,13 @@ function AppContent() {
           <Route path="/product" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>
+          <Route path="/cart" element={<Cart />} />
           <Route path="/Cart" element={<Cart />} />
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/Login" element={<LoginSignup />} />
           <Route path="/login-page" element={<Login />} />
           <Route path="/login-signup" element={<LoginSignup />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </div>
       {!isLoginPage && <Footer />}
