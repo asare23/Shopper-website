@@ -46,8 +46,8 @@ function AppContent() {
           </Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/Cart" element={<Cart />} />
-          <Route path="/login" element={<LoginSignup />} />
-          <Route path="/Login" element={<LoginSignup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/login-page" element={<Login />} />
           <Route path="/login-signup" element={<LoginSignup />} />
           <Route path="/reset-password" element={<ResetPassword />} />

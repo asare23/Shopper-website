@@ -9,6 +9,14 @@ const ProductDisplay = (props) => {
   const { product } = props;
   const { addToCart } = useContext(ShopContext);
   const navigate = useNavigate();
+  const oldPrice = product.old_price ?? product.oldPrice ?? product.price_old;
+  const newPrice = product.new_price ?? product.newPrice ?? product.price;
+
+  const formatPrice = (price) =>
+    price === null || price === undefined || price === ""
+      ? "Price unavailable"
+      : `$ ${Number(price).toLocaleString()}`;
+
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
@@ -33,8 +41,12 @@ const ProductDisplay = (props) => {
           <p>(122)</p>
         </div>
         <div className="productdisplay-right-prices">
-          <div className="productdisplay-price-old">${product.old_price}</div>
-          <div className="productdisplay-price-new">${product.new_price}</div>
+          <div className="productdisplay-price-old">
+            {formatPrice(oldPrice)}
+          </div>
+          <div className="productdisplay-price-new">
+            {formatPrice(newPrice)}
+          </div>
         </div>
         <div className="productdisplay-right-description">
           Turn heads with this effortlessly chic Elegant Floral Midi Dress,

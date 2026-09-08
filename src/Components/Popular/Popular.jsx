@@ -41,6 +41,10 @@ const Popular = () => {
   };
 
   const currentItem = data_product[currentIndex];
+  const visibleProducts = Array.from(
+    { length: Math.min(4, data_product.length) },
+    (_, offset) => data_product[(currentIndex + offset) % data_product.length],
+  );
 
   return (
     <div className="popular">
@@ -52,19 +56,39 @@ const Popular = () => {
         <p>No products available.</p>
       ) : (
         <>
-          {/* Desktop / tablet grid */}
-          <div className="popular-item popular-grid">
-            {data_product.map((item, i) => (
-              <Item
-                key={i}
-                id={item.id}
-                name={item.name}
-                image={item.image}
-                newPrice={item.new_price}
-                oldPrice={item.old_price}
-                product={item}
-              />
-            ))}
+          {/* Desktop / tablet carousel */}
+          <div className="popular-desktop-carousel">
+            {data_product.length > 4 && (
+              <button
+                type="button"
+                className="popular-arrow"
+                onClick={handlePrev}
+              >
+                &#10094;
+              </button>
+            )}
+            <div className="popular-grid">
+              {visibleProducts.map((item) => (
+                <Item
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  image={item.image}
+                  newPrice={item.new_price}
+                  oldPrice={item.old_price}
+                  product={item}
+                />
+              ))}
+            </div>
+            {data_product.length > 4 && (
+              <button
+                type="button"
+                className="popular-arrow"
+                onClick={handleNext}
+              >
+                &#10095;
+              </button>
+            )}
           </div>
 
           {/* Mobile carousel */}

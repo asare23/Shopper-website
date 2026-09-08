@@ -17,6 +17,7 @@ const getdefaultCart = () => {
 const ShopContextProvider = (props) => {
   const [cartItems, setCartItem] = useState(getdefaultCart());
   const [cartProducts, setCartProducts] = useState({});
+  const [cartLoaded, setCartLoaded] = useState(false);
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,6 +37,31 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  const loadCart = async (userId) => {
+    const { data, error } = await supabase
+      .from("user_cart_items")
+      .select("product_id, quantity, product")
+      .eq("user_id", userId);
+
+    if (error) {
+      console.warn("Failed to load cart", error.message);
+      setCartItem(getdefaultCart());
+      setCartProducts({});
+      setCartLoaded(true);
+      return;
+    }
+
+    const nextItems = getdefaultCart();
+    const nextProducts = {};
+    data.forEach((item) => {
+      nextItems[item.product_id] = item.quantity;
+      if (item.product) nextProducts[item.product_id] = item.product;
+    });
+    setCartItem(nextItems);
+    setCartProducts(nextProducts);
+    setCartLoaded(true);
+  };
+
   useEffect(() => {
     let isMounted = true;
 
@@ -45,7 +71,14 @@ const ShopContextProvider = (props) => {
         if (!isMounted) return;
         const u = session?.user ?? null;
         setUser(u);
-        if (u) fetchProfile(u.id);
+        if (u) {
+          fetchProfile(u.id);
+          loadCart(u.id);
+        } else {
+          setCartItem(getdefaultCart());
+          setCartProducts({});
+          setCartLoaded(true);
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -62,9 +95,15 @@ const ShopContextProvider = (props) => {
       setUser(u);
       if (u) {
         // Do not await Supabase calls inside the auth event callback.
-        setTimeout(() => fetchProfile(u.id), 0);
+        setTimeout(() => {
+          fetchProfile(u.id);
+          loadCart(u.id);
+        }, 0);
       } else {
         setProfile(null);
+        setCartItem(getdefaultCart());
+        setCartProducts({});
+        setCartLoaded(true);
       }
       setLoading(false);
     });
@@ -89,20 +128,58 @@ const ShopContextProvider = (props) => {
     if (error) throw error;
     setUser(null);
     setProfile(null);
+    setCartItem(getdefaultCart());
+    setCartProducts({});
+    setCartLoaded(true);
   };
 
   const addToCart = (itemId, product) => {
+    const quantity = (cartItems[itemId] || 0) + 1;
     setCartItem((prev) => ({
       ...prev,
-      [itemId]: (prev[itemId] || 0) + 1,
+      [itemId]: quantity,
     }));
     if (product) {
       setCartProducts((prev) => ({ ...prev, [itemId]: product }));
     }
+    if (user && cartLoaded) {
+      supabase.from("user_cart_items").upsert(
+        {
+          user_id: user.id,
+          product_id: String(itemId),
+          quantity,
+          product: product || cartProducts[itemId] || null,
+        },
+        { onConflict: "user_id,product_id" },
+      );
+    }
   };
 
   const removeFromCart = (itemId) => {
-    setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    const quantity = Math.max((cartItems[itemId] || 0) - 1, 0);
+    setCartItem((prev) => ({ ...prev, [itemId]: quantity }));
+    if (quantity === 0) {
+      setCartProducts((prev) => {
+        const next = { ...prev };
+        delete next[itemId];
+        return next;
+      });
+    }
+    if (user && cartLoaded) {
+      const request =
+        quantity === 0
+          ? supabase
+              .from("user_cart_items")
+              .delete()
+              .match({ user_id: user.id, product_id: String(itemId) })
+          : supabase
+              .from("user_cart_items")
+              .update({ quantity })
+              .match({ user_id: user.id, product_id: String(itemId) });
+      request.then(({ error }) => {
+        if (error) console.warn("Failed to update cart", error.message);
+      });
+    }
   };
 
   const getTotalCartAmount = () => {

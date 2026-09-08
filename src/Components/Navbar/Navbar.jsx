@@ -39,7 +39,7 @@ export const Navbar = () => {
     } catch (err) {
       console.warn("Logout error", err.message);
     } finally {
-      navigate("/login", { replace: true });
+      navigate("/login-page", { replace: true });
     }
   };
   return (
