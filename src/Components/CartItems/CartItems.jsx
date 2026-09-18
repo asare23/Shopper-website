@@ -8,6 +8,8 @@ const CartItems = () => {
     all_product,
     cartProducts,
     cartItems,
+    cartSizes,
+    addToCart,
     removeFromCart,
     getTotalCartAmount,
   } = useContext(ShopContext);
@@ -22,6 +24,7 @@ const CartItems = () => {
           <p>Quantity</p>
           <p>Total</p>
           <p>Remove</p>
+          <p>Size</p>
         </div>
         {/* <hr/> */}
         {products
@@ -41,9 +44,29 @@ const CartItems = () => {
                     />
                     <p>{e.name}</p>
                     <p>${e.new_price}</p>
-                    <button className="cartitems-quantity">
-                      {cartItems[e.id]}
-                    </button>
+                    <div className="cartitems-quantity-control">
+                      <button
+                        type="button"
+                        className="cartitems-quantity-button"
+                        onClick={() => removeFromCart(e.id)}
+                        aria-label={`Decrease quantity of ${e.name}`}
+                      >
+                        -
+                      </button>
+                      <span className="cartitems-quantity-value">
+                        {cartItems[e.id]}
+                      </span>
+                      <button
+                        type="button"
+                        className="cartitems-quantity-button"
+                        onClick={() =>
+                          addToCart(e.id, e, cartSizes[e.id] || "")
+                        }
+                        aria-label={`Increase quantity of ${e.name}`}
+                      >
+                        +
+                      </button>
+                    </div>
                     <p>${e.new_price * cartItems[e.id]} </p>
                     <img
                       className="cartitems-remove-icon"
@@ -53,6 +76,7 @@ const CartItems = () => {
                       }}
                       alt=""
                     />
+                    <p className="cartitems-size">{cartSizes[e.id] || "-"}</p>
                   </div>
                   {/* <hr/> */}
                 </div>

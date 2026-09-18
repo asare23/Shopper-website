@@ -1,14 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star.png";
 import star_dull_icon from "../Assets/stardull.png";
 import { ShopContext } from "../../Context/ShopContext";
 
+const sizes = ["S", "M", "L", "XL", "XXL"];
+
 const ProductDisplay = (props) => {
   const { product } = props;
   const { addToCart } = useContext(ShopContext);
   const navigate = useNavigate();
+  const [selectedSize, setSelectedSize] = useState("S");
   const oldPrice = product.old_price ?? product.oldPrice ?? product.price_old;
   const newPrice = product.new_price ?? product.newPrice ?? product.price;
 
@@ -58,17 +61,36 @@ const ProductDisplay = (props) => {
         <div className="productdisplay-right-size">
           <h1>Select Size</h1>
           <div className="productdisplay-right-size-options">
-            <div>S</div>
-            <div>M</div>
-            <div>L</div>
-            <div>XL</div>
-            <div>XXL</div>
+            {sizes.map((size) => (
+              <div
+                key={size}
+                className={selectedSize === size ? "selected" : ""}
+                onClick={() => setSelectedSize(size)}
+                style={{
+                  cursor: "pointer",
+                  padding: "8px 12px",
+                  border:
+                    selectedSize === size
+                      ? "1px solid #ff4141"
+                      : "1px solid #c5c5c5",
+                  borderRadius: "4px",
+                  background: selectedSize === size ? "#fff0f0" : "#fff",
+                  fontWeight: selectedSize === size ? 600 : 500,
+                }}
+              >
+                {size}
+              </div>
+            ))}
           </div>
         </div>
         <button
-          onClick={() => {
-            addToCart(product.id, product);
-            navigate("/cart");
+          onClick={async () => {
+            try {
+              await addToCart(product.id, product, selectedSize);
+              navigate("/cart");
+            } catch {
+              // Keep the user on the product page when saving fails.
+            }
           }}
         >
           ADD TO CART
