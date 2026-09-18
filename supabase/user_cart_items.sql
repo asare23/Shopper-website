@@ -3,10 +3,13 @@ create table if not exists public.user_cart_items (
   product_id text not null,
   quantity integer not null default 1 check (quantity > 0),
   product jsonb,
+  size text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   primary key (user_id, product_id)
 );
+
+alter table public.user_cart_items add column if not exists size text;
 
 alter table public.user_cart_items enable row level security;
 
