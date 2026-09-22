@@ -19,7 +19,7 @@ const NewCollections = () => {
   }, []);
 
   return (
-    <div className="newcollections">
+    <section id="new-collections" className="newcollections">
       <h1>NEW COLLECTIONS</h1>
       <hr />
       {loading ? (
@@ -43,7 +43,7 @@ const NewCollections = () => {
           })}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

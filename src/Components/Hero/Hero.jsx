@@ -1,7 +1,6 @@
 import React from "react";
 import "./Hero.css";
 import hero_image from "../Assets/girlhero.png";
-import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -19,9 +18,9 @@ const Hero = () => {
           </div>
           <p>for every version of you.</p>
         </div>
-        <Link className="hero-latest-btn" to="/womens">
+        <a className="hero-latest-btn" href="#new-collections">
           Shop new arrivals <span>→</span>
-        </Link>
+        </a>
       </div>
       <div className="hero-right">
         <img src={hero_image} alt="" />
