@@ -1,6 +1,8 @@
 import React from "react";
 import "./Offers.css";
-import exclusive_img from "../Assets/ex_img.png";
+import { getStorageImageUrl } from "../../Services/productImages";
+
+const exclusive_img = getStorageImageUrl("ex_img.png");
 
 const Offers = () => {
   return (

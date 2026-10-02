@@ -1,10 +1,12 @@
 import { React, useContext, useState, useEffect } from "react";
 import "./Navbar.css";
-import cart from "../Assets/shopping-cart.png";
-import shopping from "../Assets/shopping.png";
-import menus from "../Assets/menu.png";
+import { getStorageImageUrl } from "../../Services/productImages";
 import { Link, useNavigate } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
+
+const cart = getStorageImageUrl("shopping-cart.png");
+const shopping = getStorageImageUrl("shopping.png");
+const menus = getStorageImageUrl("menu.png");
 
 export const Navbar = () => {
   const [menu, setMenu] = useState("shop");

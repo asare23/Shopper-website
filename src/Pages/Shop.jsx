@@ -5,6 +5,7 @@ import Offers from "../Components/Offers/Offers";
 import NewCollections from "../Components/NewCollections/NewCollections";
 import NewsLetter from "../Components/NewsLetter/NewsLetter";
 import { Link } from "react-router-dom";
+import { getStorageImageUrl } from "../Services/productImages";
 
 const Shop = () => {
   return (
@@ -27,31 +28,19 @@ const Shop = () => {
         </div>
         <div className="category-grid">
           <Link to="/mens">
-            <img
-              src={require("../Components/Assets/men1.jpg")}
-              alt="Men's collection"
-            />
+            <img src={getStorageImageUrl("men1.jpg")} alt="Men's collection" />
             <span>Men</span>
           </Link>
           <Link to="/womens">
-            <img
-              src={require("../Components/Assets/wo1.jpg")}
-              alt="Women's collection"
-            />
+            <img src={getStorageImageUrl("wo1.jpg")} alt="Women's collection" />
             <span>Women</span>
           </Link>
           <Link to="/kids">
-            <img
-              src={require("../Components/Assets/kid1.jpg")}
-              alt="Kids collection"
-            />
+            <img src={getStorageImageUrl("kid1.jpg")} alt="Kids collection" />
             <span>Kids</span>
           </Link>
           <Link to="/womens">
-            <img
-              src={require("../Components/Assets/col1.webp")}
-              alt="New arrivals"
-            />
+            <img src={getStorageImageUrl("col1.webp")} alt="New arrivals" />
             <span>New arrivals</span>
           </Link>
         </div>

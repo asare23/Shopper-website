@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductDisplay.css";
-import star_icon from "../Assets/star.png";
-import star_dull_icon from "../Assets/stardull.png";
+import { getStorageImageUrl } from "../../Services/productImages";
 import { ShopContext } from "../../Context/ShopContext";
 
 const sizes = ["S", "M", "L", "XL", "XXL"];
+const star_icon = getStorageImageUrl("star.png");
+const star_dull_icon = getStorageImageUrl("stardull.png");
 
 const ProductDisplay = (props) => {
   const { product } = props;

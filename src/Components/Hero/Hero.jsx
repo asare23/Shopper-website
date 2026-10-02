@@ -1,6 +1,8 @@
 import React from "react";
 import "./Hero.css";
-import hero_image from "../Assets/girlhero.png";
+import { getStorageImageUrl } from "../../Services/productImages";
+
+const hero_image = getStorageImageUrl("girlhero.png");
 
 const Hero = () => {
   return (

@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import "./CartItems.css";
-import remove_icon from "../Assets/remove.png";
+import { getStorageImageUrl } from "../../Services/productImages";
+
+const remove_icon = getStorageImageUrl("remove.png");
 
 const CartItems = () => {
   const {
-    all_product,
     cartProducts,
     cartItems,
     cartSizes,
@@ -13,7 +14,7 @@ const CartItems = () => {
     removeFromCart,
     getTotalCartAmount,
   } = useContext(ShopContext);
-  const products = [...all_product, ...Object.values(cartProducts)];
+  const products = Object.values(cartProducts).filter(Boolean);
   return (
     <div className="cartitems">
       <div className="cart-main">
@@ -35,7 +36,7 @@ const CartItems = () => {
           .map((e) => {
             if (cartItems[e.id] > 0) {
               return (
-                <div>
+                <div key={e.id}>
                   <div className="cartitems-format cartitems-format-main">
                     <img
                       className="carticon-product-icon"

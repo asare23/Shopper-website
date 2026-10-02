@@ -10,9 +10,11 @@ import LoginSignup from "./Pages/LoginSignup";
 import Login from "./Pages/Login";
 import ResetPassword from "./Pages/ResetPassword";
 import Footer from "./Components/Footer/Footer";
-import men_banner from "./Components/Assets/menbanner.png";
-import women_banner from "./Components/Assets/womenbanner.png";
-import kids_banner from "./Components/Assets/kidbanner.png";
+import { getStorageImageUrl } from "./Services/productImages";
+
+const men_banner = getStorageImageUrl("menbanner.png");
+const women_banner = getStorageImageUrl("womenbanner.png");
+const kids_banner = getStorageImageUrl("kidbanner.png");
 
 function AppContent() {
   const location = useLocation();

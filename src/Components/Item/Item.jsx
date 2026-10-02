@@ -2,7 +2,9 @@ import React, { useContext, useState } from "react";
 import "./Item.css";
 import { Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
-import cartIcon from "../Assets/shopping-cart.png";
+import { getStorageImageUrl } from "../../Services/productImages";
+
+const cartIcon = getStorageImageUrl("shopping-cart.png");
 
 const Item = (props) => {
   const { addToCart } = useContext(ShopContext);

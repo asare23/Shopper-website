@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./CSS/LoginSignup.css";
-import shopping from "../Components/Assets/shopping.png";
+import { getStorageImageUrl } from "../Services/productImages";
 import { supabase } from "../client";
+
+const shopping = getStorageImageUrl("shopping.png");
 
 const LoginSignup = () => {
   const [showPassword, setShowPassword] = useState(false);

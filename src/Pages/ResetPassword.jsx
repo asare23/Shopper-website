@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./CSS/Login.css";
-import shopping from "../Components/Assets/shopping.png";
+import { getStorageImageUrl } from "../Services/productImages";
 import { supabase } from "../client";
+
+const shopping = getStorageImageUrl("shopping.png");
 
 const ResetPassword = () => {
   const navigate = useNavigate();

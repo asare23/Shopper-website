@@ -1,3 +1,5 @@
+import { resolveProductImages } from "./productImages";
+
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 export const fetchNewProducts = async () => {
@@ -10,7 +12,7 @@ export const fetchNewProducts = async () => {
     if (!body.success) {
       throw new Error(body.message || "Failed to retrieve new products");
     }
-    return body.data;
+    return resolveProductImages(body.data);
   } catch (error) {
     console.error("fetchNewProducts error", error);
     return [];

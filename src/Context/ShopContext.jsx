@@ -1,18 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
-import importedProducts from "../Components/Assets/all_product";
 import { supabase } from "../client";
+import { resolveProduct } from "../Services/productImages";
 
 export const ShopContext = createContext(null);
 
-const all_product = Array.isArray(importedProducts) ? importedProducts : [];
-
-const getdefaultCart = () => {
-  let cart = {};
-  for (let index = 0; index < all_product.length + 1; index++) {
-    cart[index] = 0;
-  }
-  return cart;
-};
+const getdefaultCart = () => ({});
 
 const ShopContextProvider = (props) => {
   const [cartItems, setCartItem] = useState(getdefaultCart());
@@ -58,7 +50,8 @@ const ShopContextProvider = (props) => {
     const nextSizes = {};
     data.forEach((item) => {
       nextItems[item.product_id] = item.quantity;
-      if (item.product) nextProducts[item.product_id] = item.product;
+      if (item.product)
+        nextProducts[item.product_id] = resolveProduct(item.product);
       if (item.size) nextSizes[item.product_id] = item.size;
     });
     setCartItem(nextItems);
@@ -148,8 +141,9 @@ const ShopContextProvider = (props) => {
       ...prev,
       [itemId]: quantity,
     }));
-    if (product) {
-      setCartProducts((prev) => ({ ...prev, [itemId]: product }));
+    const resolvedProduct = resolveProduct(product);
+    if (resolvedProduct) {
+      setCartProducts((prev) => ({ ...prev, [itemId]: resolvedProduct }));
     }
     if (size) {
       setCartSizes((prev) => ({ ...prev, [itemId]: size }));
@@ -165,7 +159,7 @@ const ShopContextProvider = (props) => {
           user_id: user.id,
           product_id: String(itemId),
           quantity,
-          product: product || cartProducts[itemId] || null,
+          product: resolvedProduct || cartProducts[itemId] || null,
           size,
         },
         { onConflict: "user_id,product_id" },
@@ -222,9 +216,7 @@ const ShopContextProvider = (props) => {
     let totalAmount = 0;
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
-        const itemInfo =
-          cartProducts[item] ||
-          all_product.find((product) => product.id === parseInt(item));
+        const itemInfo = cartProducts[item];
         if (itemInfo) {
           totalAmount += itemInfo.new_price * cartItems[item];
         }
@@ -251,7 +243,6 @@ const ShopContextProvider = (props) => {
     "";
 
   const contextValue = {
-    all_product,
     cartProducts,
     cartItems,
     cartSizes,

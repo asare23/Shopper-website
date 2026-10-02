@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./CSS/ShopCategory.css";
-import dropdown_icon from "../Components/Assets/down1.png";
+import { getStorageImageUrl } from "../Services/productImages";
 import Item from "../Components/Item/Item";
 import { fetchProductsByCategory } from "../Services/products.service";
 import LoadingSpinner from "../Components/LoadingSpinner/LoadingSpinner";
+
+const dropdown_icon = getStorageImageUrl("down1.png");
 
 const ShopCategory = (props) => {
   const [products, setProducts] = useState([]);
