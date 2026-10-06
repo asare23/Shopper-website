@@ -8,17 +8,30 @@ import { Link } from "react-router-dom";
 import { getStorageImageUrl } from "../Services/productImages";
 
 const Shop = () => {
+  const brands = [
+    { name: "SOLEX", logo: "solex.png" },
+    { name: "NIKE", logo: "nike.png" },
+    { name: "ADIDAS", logo: "adidas.png" },
+    { name: "PUMA", logo: "puma.png" },
+    { name: "NEW BALANCE", logo: "Newbalance.png" },
+    { name: "VANS", logo: "vans.png" },
+  ];
+
   return (
     <div className="shop-page">
       <Hero />
       <section className="brand-strip">
         <span className="section-kicker">TOP BRANDS</span>
-        <strong>SOLEX</strong>
-        <strong>NIKE</strong>
-        <strong>ADIDAS</strong>
-        <strong>PUMA</strong>
-        <strong>NEW BALANCE</strong>
-        <strong>VANS</strong>
+        {brands.map((brand) => (
+          <div key={brand.name} className="brand-item">
+            <img
+              className="brand-logo"
+              src={getStorageImageUrl(brand.logo)}
+              alt={brand.name}
+            />
+            <strong>{brand.name}</strong>
+          </div>
+        ))}
         <Link to="/mens">View all</Link>
       </section>
       <section className="category-strip">

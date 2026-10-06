@@ -49,10 +49,26 @@
   border: 1px solid #e9e9e9;
   background: #fff;
 }
-.brand-strip strong {
-  font-size: 17px;
-  letter-spacing: 1px;
+.brand-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
+
+.brand-logo {
+  display: block;
+  width: 46px;
+  height: 22px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.brand-item strong {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
 .brand-strip a,
 .section-heading a {
   margin-left: auto;
@@ -124,8 +140,12 @@
     overflow-x: auto;
     white-space: nowrap;
   }
-  .brand-strip strong {
-    font-size: 13px;
+  .brand-logo {
+    width: 34px;
+    height: 18px;
+  }
+  .brand-item strong {
+    font-size: 12px;
   }
   .category-strip,
   .service-strip {
